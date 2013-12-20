@@ -9,9 +9,8 @@ my $todo_path = '<PATH_TO_todo.sh_FILE';
 
 # extract date from string using regular expression
 sub getDateFromString {
-    my $string_with_date = shift;
     # if we find something then return it
-    if($string_with_date =~ /.*(\d{4}-\d{1,2}-\d{1,2}).*/) {
+    if(shift =~ /.*(\d{4}-\d{1,2}-\d{1,2}).*/) {
         return $1;
     }
     # return empty string if date not found
@@ -22,9 +21,8 @@ sub getDateFromString {
 
 # extract time from string using regular expression
 sub getTimeFromString {
-    my $string_with_date = shift;
     # if we find something then return it
-    if($string_with_date =~ /.*(\d{2}:\d{2}:\d{2}).*/) {
+    if(shift =~ /.*(\d{2}:\d{2}:\d{2}).*/) {
         return $1;
     }
     # return empty string if time not found
@@ -42,26 +40,26 @@ sub getCurrentTime {
 }
 
 sub showNotification {
-    my $line = shift;
-    #remove bash colors from $line 
-    $line =~ s/\e\[?.*?[\@-~]//g;
+    #remove bash colors from line 
+    $_[0] =~ s/\e\[?.*?[\@-~]//g;
 
     #show the notification
-    `notify-send "Task notification" "$line"`;
+    `notify-send "Task notification" "$_[0]"`;
+}
 
+sub dateIsSet {
+    return getDateFromString(shift);
 }
 
 # get all tasks to the array line by line
-my @todo_lines = split(/\n/,`bash $todo_path ls`);
-
-foreach my $todo_line (@todo_lines) {
-    my $current_date = getCurrentDate();
-    my $todo_date    = getDateFromString($todo_line);
-    if(!$current_date or !$todo_date){
+foreach (split(/\n/,`bash $todo_path ls`)) {
+    if(!dateIsSet($_)) {
         next;
     }
 
+    my $current_date = getCurrentDate();
+    my $todo_date    = getDateFromString($_);
     if(($current_date gt $todo_date) or ($current_date eq $todo_date)) {
-        showNotification($todo_line);
+        showNotification($_);
     }
 }
