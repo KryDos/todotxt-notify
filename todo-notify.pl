@@ -63,7 +63,4 @@ foreach my $todo_line (@todo_lines) {
     if(($current_date gt $todo_date) or ($current_date eq $todo_date)) {
         showNotification($todo_line);
     }
-    else {
-        print "$current_date\t$todo_date\n";
-    }
 }
