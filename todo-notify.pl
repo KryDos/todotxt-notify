@@ -4,6 +4,9 @@ use warnings;
 use utf8;
 use POSIX qw/strftime/;
 
+# path to todo.sh file
+my $todo_path = '<PATH_TO_todo.sh_FILE';
+
 # extract date from string using regular expression
 sub getDateFromString {
     my $string_with_date = shift;
@@ -48,8 +51,6 @@ sub showNotification {
 
 }
 
-# path to todo.sh file
-my $todo_path = '<PATH_TO_todo.sh_FILE';
 # get all tasks to the array line by line
 my @todo_lines = split(/\n/,`bash $todo_path ls`);
 

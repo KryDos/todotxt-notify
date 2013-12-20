@@ -11,6 +11,7 @@ All that you need is:
 
  - clone this repo or download it and put **todo-notify.pl** in any
    place that you want.
+ - change the path to your todo.sh file ($todo\_path variable).
  - add cron job for executing this script every minute/hour/day/mounth.
  
 That's all. Thank you :)
